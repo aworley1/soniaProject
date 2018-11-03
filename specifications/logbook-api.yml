@@ -1,0 +1,81 @@
+swagger: "2.0"
+info:
+  description: "Pilot's logbook API"
+  version: "1.0.0"
+  title: "Logbook API"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "logbook-sample.io"
+basePath: "/api/v1"
+tags:
+- name: "flights"
+  description: "Records of individual flights a pilot has made"
+schemes:
+- "https"
+- "http"
+paths:
+  '/pilots/{pilotId}/flights':
+    get:
+      tags:
+      - "flights"
+      summary: "Get all flights for a pilot"
+      description: ""
+      operationId: "getFlights"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: pilotId
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Flights found and returned"
+          schema:
+            type: object
+            properties:
+              flights:
+                $ref: '#/definitions/Flights'
+    post:
+      tags:
+      - "flights"
+      summary: "Create a flight for a pilot"
+      description: ""
+      operationId: "createFlight"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: pilotId
+        in: path
+        required: true
+        type: string
+      responses:
+        201:
+          description: "Flight created"
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: "Flight id"
+                example: "17865bcb-a1e5-4b25-aae9-3a4293ef2b3a"
+definitions:
+  Flight:
+    type: "object"
+    required:
+    - "id"
+    - "pilotId"
+    properties:
+      id:
+        type: "string"
+      pilotId:
+        type: "string"
+  Flights:
+    type: array
+    items:
+      $ref: '#/definitions/Flight'
